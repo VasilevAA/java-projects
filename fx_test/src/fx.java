@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -45,6 +47,11 @@ public class fx extends Application {
         RadioButton one = new RadioButton("          Train");
         RadioButton two = new RadioButton("    Car");
         RadioButton three = new RadioButton("    Plassne");
+
+        TextField txt  = new TextField();
+
+        txt.textProperty().addListener((observable, oldValue, newValue) -> response.setText(newValue));
+
 
         tg = new ToggleGroup();
 
@@ -173,7 +180,7 @@ public class fx extends Application {
         Separator sep = new Separator();
         sep.setPrefWidth(180);
 
-        rootNode.getChildren().addAll(choose, one, two, three, sep, confirm, response);
+        rootNode.getChildren().addAll(txt,choose, one, two, three, sep, confirm, response);
 
         primaryStage.show();
     }
