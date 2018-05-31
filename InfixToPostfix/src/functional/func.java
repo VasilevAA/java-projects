@@ -64,10 +64,7 @@ public class func {
                     is_last_tocken_symbol = true;
             }
         }
-        if(count_brack != 0)
-            return false;
-
-        return true;
+        return count_brack == 0;
     }
 
 
