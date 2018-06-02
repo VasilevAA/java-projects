@@ -1,4 +1,67 @@
 package gui.menus;
 
-public class MainMenu {
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class MainMenu extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        createMainMenu(primaryStage);
+
+
+    }
+
+    public void createMainMenu(Stage primaryStage) {
+        VBox vb = new VBox(10);
+        vb.setPadding(new Insets(10));
+        vb.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(vb);
+
+        primaryStage.setWidth(200);
+        primaryStage.setHeight(200);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("Sea Battle");
+
+        Label inf_lab = new Label("Nickname: ");
+        inf_lab.setMinWidth(60);
+        TextField input = new TextField();
+        HBox hb1 = new HBox(5, inf_lab, input);
+
+
+        Button findGameButton = new Button("Find game");
+        findGameButton.setAlignment(Pos.CENTER);
+        findGameButton.setPrefWidth(Double.MAX_VALUE);
+
+        Button createGameButton = new Button("Create game room");
+        createGameButton.setAlignment(Pos.CENTER);
+        createGameButton.setPrefWidth(Double.MAX_VALUE);
+
+        Button createGameVsComputerButton = new Button("Play VS computer");
+        createGameVsComputerButton.setAlignment(Pos.CENTER);
+        createGameVsComputerButton.setPrefWidth(Double.MAX_VALUE);
+
+        vb.getChildren().addAll(hb1,findGameButton,createGameButton,new Separator(),createGameVsComputerButton);
+        primaryStage.show();
+    }
+
+
 }
