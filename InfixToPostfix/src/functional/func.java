@@ -4,11 +4,15 @@ import java.util.Stack;
 
 public class func {
 
-    private static String add_spaces(String str) {
 
-        StringBuilder b = new StringBuilder(str.trim());
+    private static String parse_string(String str) {
+
+        StringBuilder b = new StringBuilder(str.trim().replaceAll("\\s", ""));
+        System.out.println(str.replaceAll("\\s", ""));
+
 
         char[] symb = {'+', '*', '/', '(', ')', '-', '%'};
+
         for (char aSymb : symb) {
             int a = -2;
             while ((a = b.indexOf(String.valueOf(aSymb), a + 2)) != -1) {
@@ -16,6 +20,7 @@ public class func {
                 b.insert(a + 2, ' ');
             }
         }
+
         return b.toString().trim();
     }
 
@@ -70,7 +75,7 @@ public class func {
 
     public static String inf_to_pstf(String infx) {
 
-        String[] tokens = add_spaces(infx).split(" +");
+        String[] tokens = parse_string(infx).split(" +");
 
         if (!is_notation_correct(tokens))
             return "-+-";
