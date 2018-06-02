@@ -1,6 +1,5 @@
 package gui.menus;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,24 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainMenu extends Application {
+public class MainMenu{
 
-    public static void main(String[] args) {
-        launch(args);
-
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-        createMainMenu(primaryStage);
-
-
-    }
+    private TextField inputNickname = new TextField("nickname");
 
     public void createMainMenu(Stage primaryStage) {
         VBox vb = new VBox(10);
@@ -43,13 +31,13 @@ public class MainMenu extends Application {
 
         Label inf_lab = new Label("Nickname: ");
         inf_lab.setMinWidth(60);
-        TextField input = new TextField();
-        HBox hb1 = new HBox(5, inf_lab, input);
+        HBox hb1 = new HBox(5, inf_lab, inputNickname);
 
 
         Button findGameButton = new Button("Find game");
         findGameButton.setAlignment(Pos.CENTER);
         findGameButton.setPrefWidth(Double.MAX_VALUE);
+        findGameButton.setOnAction(event -> findRoomWindow());
 
         Button createGameButton = new Button("Create game room");
         createGameButton.setAlignment(Pos.CENTER);
@@ -59,9 +47,45 @@ public class MainMenu extends Application {
         createGameVsComputerButton.setAlignment(Pos.CENTER);
         createGameVsComputerButton.setPrefWidth(Double.MAX_VALUE);
 
+        inputNickname.textProperty().addListener((observable, oldValue, newValue) -> {
+            createGameButton.setDisable(newValue.isEmpty() || newValue.length()<3);
+            findGameButton.setDisable(newValue.isEmpty()|| newValue.length()<3);
+            createGameVsComputerButton.setDisable(newValue.isEmpty()|| newValue.length()<3);
+        });
+
         vb.getChildren().addAll(hb1,findGameButton,createGameButton,new Separator(),createGameVsComputerButton);
         primaryStage.show();
     }
 
 
+    private void findRoomWindow(){
+        Stage w = new Stage();
+        w.initModality(Modality.APPLICATION_MODAL);
+        VBox vb = new VBox(10);
+        vb.setPadding(new Insets(10));
+        vb.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(vb);
+
+        w.setWidth(200);
+        w.setHeight(120);
+        w.setScene(scene);
+        w.setResizable(false);
+        w.setTitle("Sea Battle");
+
+        Label inf_lab = new Label("Room ID: ");
+        inf_lab.setMinWidth(60);
+        TextField input = new TextField();
+        HBox hb1 = new HBox(5, inf_lab, input);
+
+        Button findGameButton = new Button("Search");
+        findGameButton.setAlignment(Pos.CENTER);
+
+        vb.getChildren().addAll(hb1,findGameButton);
+
+
+        w.show();
+    }
 }
+
+
