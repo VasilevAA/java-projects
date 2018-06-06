@@ -1,6 +1,5 @@
 package gui.menus;
 
-import com.sun.tools.javac.Main;
 import game.Game;
 import gui.fields.MainField;
 import javafx.geometry.Insets;
@@ -96,12 +95,12 @@ public class MainMenu{
     private void createVSComputerGame(){
         Player first = new HumanPlayer(inputNickname.getText());
         Player second = new ComputerPlayer("Computer");
-        //Player first = new ComputerPlayer("Computer 1");
 
         Game mGame = new Game(first,second);
 
-        MainField playerField = new MainField(second,first);
-        mGame.run();
+        MainField playerField = new MainField(mGame);
+        playerField.show();
+
     }
 }
 

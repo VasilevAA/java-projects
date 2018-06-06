@@ -24,19 +24,17 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    public Point makeShot() {
+    public Point makeShot() {// TODO: 07.06.2018 make it just a bit smarter
 
         return new Point(new Random().nextInt(10),new Random().nextInt(10));
     }
 
     @Override
     public boolean getCorrectShot(Point point) {
-        if(field.isPointAlreadyShot(point)) {
-            System.out.println("not correct shot");
+        if(field.isCellAlreadyShot(point))
             return false;
-        }
 
-        field.pointCell(point);
+        field.setCellAlreadyShot(point);
 
         return true;
     }

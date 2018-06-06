@@ -3,27 +3,14 @@ package player;
 import gameelements.GameField;
 import gameelements.Point;
 
-import java.time.temporal.ChronoField;
-
 public abstract class Player {
 
-    protected String name;
+    private String name;
 
-    protected GameField field;
+    GameField field;
 
-    protected volatile Point shot;
 
-    protected volatile boolean isThinking  = true;
-
-    public void setShot(Point shot) {
-        this.shot = shot;
-    }
-
-    public void setThinking(boolean thinking) {
-        isThinking = thinking;
-    }
-
-    public Player(String name) {
+    Player(String name) {
         this.name = name;
         field = new GameField();
     }
@@ -44,7 +31,7 @@ public abstract class Player {
         System.out.println("player " + name + " field:");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                char c = field.isPointAlreadyShot(new Point(j,i)) ? 'X' : '_';
+                char c = field.isCellAlreadyShot(new Point(j,i)) ? 'X' : '_';
                 System.out.print(Character.toString(c) + ' ');
             }
             System.out.println();

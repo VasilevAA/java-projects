@@ -1,51 +1,38 @@
 package game;
 
+import gameelements.Point;
 import player.Player;
 
 public class Game {
 
-    Player first;
-    Player second;
+    private Player player; // It's you
+    private Player opponent; // your opponent (comp or real human)
 
-    boolean isPlayingFirst;
-
-    boolean isFirstWon;
-
-    boolean isRunning;
 
     public Game(Player first, Player second) {
-        this.first = first;
-        this.second = second;
-        isPlayingFirst = true;
-        isFirstWon = false;
-        isRunning = true;
+        this.player = first;
+        this.opponent = second;
+
     }
 
-    public void run() {
+    public void run() {//!!!
         System.out.println("opa, zarabotalo");
 
-        while (isRunning) {
-            makeShot();
-        }
     }
 
-    private void makeShot() {
-        Player one = isPlayingFirst ? first : second;
-        Player two = isPlayingFirst ? second : first;
-        System.out.println("now playing player: " + one.getName());
+    public void makeShot(Point point) {
+        opponent.getCorrectShot(point); //point came without mistakes
+        opponent.printField();
 
-        //one.startTurn();
+        getShot();
 
+    }
 
-        while (!two.getCorrectShot(one.makeShot())) ;
-
-
-        two.printField();
-
-
-        one.endTurn();
-
-        isPlayingFirst = !isPlayingFirst;
-
+    // TODO: 07.06.2018 maybe we need hierarchy of game classes: human game and computer
+    private void getShot() {
+        while(!player.getCorrectShot(opponent.makeShot())) {
+            //waiting for opponent shot
+        }
+        player.printField();
     }
 }

@@ -1,55 +1,46 @@
 package gui.fields;
 
+import game.Game;
 import gameelements.Point;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import player.Player;
 
-public class MainField {
-    Button [][]field = new Button[10][10];
+public class MainField extends Stage {
 
-    Stage stage = new Stage();
+    private Button[][] field = new Button[10][10];
 
-    Player opponent;
-    Player player;
+    private Game game;
 
+    public MainField(Game game) {
+        this.game = game;
 
-    public Stage getStage() {
-        return stage;
+        GridPane grid = new GridPane();
+        Scene scene = new Scene(grid);
+
+        setUpField(grid);
+        setScene(scene);
     }
 
-    public MainField(Player opponent, Player player){
-        GridPane grid= new GridPane();
-        Scene scene = new Scene(grid);
-        this.opponent = opponent;
-        this.player = player;
-
+    private void setUpField(GridPane grid) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Button but =
-                field[i][j] = new Button(" ");
-                but.setMinSize(25,25);
+                        field[i][j] = new Button(" ");
+                but.setMinSize(25, 25);
 
                 int finalI = i;
                 int finalJ = j;
+
                 but.setOnAction(event -> {
-                    //this.opponent.getCorrectShot(new Point(finalJ, finalI));
-                    //this.opponent.printField();
                     field[finalI][finalJ].setDisable(true);
-                    this.player.setShot(new Point(finalJ,finalI));
-                    this.player.setThinking(false);
+                    this.game.makeShot(new Point(finalJ, finalI));
 
                 });
-                grid.add(but,j,i);
+
+                grid.add(but, j, i);
             }
         }
-
-
-        stage.setScene(scene);
-        stage.show();
     }
 }
