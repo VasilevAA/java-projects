@@ -92,8 +92,9 @@ public class MainMenu{
     }
 
     private void createVSComputerGame(){
-        Player first = new HumanPlayer(inputNickname.getText());
-        Player second = new ComputerPlayer("Computer");
+//        Player first = new HumanPlayer(inputNickname.getText());
+        Player second = new ComputerPlayer("Computer 2");
+        Player first = new ComputerPlayer("Computer 1");
 
         Game mGame = new Game(first,second);
 

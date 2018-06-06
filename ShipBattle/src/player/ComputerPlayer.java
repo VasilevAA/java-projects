@@ -1,18 +1,20 @@
 package player;
 
-import gameelements.GameField;
+import gameelements.Point;
 
-public class ComputerPlayer implements Player {
+import java.util.Random;
 
-    private String name;
-    private GameField mField;
+public class ComputerPlayer extends Player {
 
-    public ComputerPlayer(String name){
-        this.name = name;
+
+    public ComputerPlayer(String name) {
+        super(name);
+
     }
 
     @Override
     public boolean startTurn() {
+
         return false;
     }
 
@@ -22,12 +24,22 @@ public class ComputerPlayer implements Player {
     }
 
     @Override
-    public boolean makeTurn() {
-        return false;
+    public Point makeShot() {
+
+        return new Point(new Random().nextInt(10),new Random().nextInt(10));
     }
 
     @Override
-    public String getName() {
-        return name;
+    public boolean getCorrectShot(Point point) {
+        if(field.isPointAlreadyShot(point)) {
+            System.out.println("not correct shot");
+            return false;
+        }
+
+        field.pointCell(point);
+
+        return true;
     }
+
+
 }

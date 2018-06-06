@@ -1,11 +1,14 @@
 package player;
 
-public class HumanPlayer implements Player {
+import gameelements.Point;
 
-    private String name;
+public class HumanPlayer extends Player {
+
 
     public HumanPlayer(String text) {
-        this.name = text;
+        super(text);
+
+
     }
 
     @Override
@@ -19,12 +22,13 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public boolean makeTurn() {
-        return false;
+    public Point makeShot() {
+    return  null;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public boolean getCorrectShot(Point point) {
+        return false;
     }
+
 }
