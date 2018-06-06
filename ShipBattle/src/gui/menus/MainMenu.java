@@ -1,6 +1,8 @@
 package gui.menus;
 
+import com.sun.tools.javac.Main;
 import game.Game;
+import gui.fields.MainField;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -92,12 +94,13 @@ public class MainMenu{
     }
 
     private void createVSComputerGame(){
-//        Player first = new HumanPlayer(inputNickname.getText());
-        Player second = new ComputerPlayer("Computer 2");
-        Player first = new ComputerPlayer("Computer 1");
+        Player first = new HumanPlayer(inputNickname.getText());
+        Player second = new ComputerPlayer("Computer");
+        //Player first = new ComputerPlayer("Computer 1");
 
         Game mGame = new Game(first,second);
 
+        MainField playerField = new MainField(second,first);
         mGame.run();
     }
 }

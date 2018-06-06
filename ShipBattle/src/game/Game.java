@@ -13,7 +13,7 @@ public class Game {
 
     boolean isRunning;
 
-    public Game(Player first, Player second){
+    public Game(Player first, Player second) {
         this.first = first;
         this.second = second;
         isPlayingFirst = true;
@@ -21,29 +21,24 @@ public class Game {
         isRunning = true;
     }
 
-    public void run(){
+    public void run() {
         System.out.println("opa, zarabotalo");
 
-        while (isRunning){
+        while (isRunning) {
             makeShot();
         }
     }
 
-    private void makeShot(){
+    private void makeShot() {
         Player one = isPlayingFirst ? first : second;
         Player two = isPlayingFirst ? second : first;
         System.out.println("now playing player: " + one.getName());
 
-        one.startTurn();
+        //one.startTurn();
 
 
-        while( !two.getCorrectShot(one.makeShot()));
+        while (!two.getCorrectShot(one.makeShot())) ;
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         two.printField();
 

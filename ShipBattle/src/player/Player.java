@@ -7,9 +7,21 @@ import java.time.temporal.ChronoField;
 
 public abstract class Player {
 
-    String name;
+    protected String name;
 
-    GameField field;
+    protected GameField field;
+
+    protected volatile Point shot;
+
+    protected volatile boolean isThinking  = true;
+
+    public void setShot(Point shot) {
+        this.shot = shot;
+    }
+
+    public void setThinking(boolean thinking) {
+        isThinking = thinking;
+    }
 
     public Player(String name) {
         this.name = name;

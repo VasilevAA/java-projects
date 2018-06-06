@@ -2,6 +2,8 @@ package player;
 
 import gameelements.Point;
 
+import java.util.TimerTask;
+
 public class HumanPlayer extends Player {
 
 
@@ -23,12 +25,25 @@ public class HumanPlayer extends Player {
 
     @Override
     public Point makeShot() {
-    return  null;
+
+        isThinking = true;
+
+
+
+        return shot;
     }
 
     @Override
     public boolean getCorrectShot(Point point) {
-        return false;
+        if(field.isPointAlreadyShot(point)) {
+            System.out.println("not correct shot");
+            return false;
+        }
+
+        field.pointCell(point);
+
+        return true;
+
     }
 
 }
