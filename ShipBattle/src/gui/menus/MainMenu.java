@@ -1,5 +1,6 @@
 package gui.menus;
 
+import game.Game;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,6 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import player.*;
 
 public class MainMenu{
 
@@ -46,6 +49,7 @@ public class MainMenu{
         Button createGameVsComputerButton = new Button("Play VS computer");
         createGameVsComputerButton.setAlignment(Pos.CENTER);
         createGameVsComputerButton.setPrefWidth(Double.MAX_VALUE);
+        createGameVsComputerButton.setOnAction(event -> createVSComputerGame());
 
         inputNickname.textProperty().addListener((observable, oldValue, newValue) -> {
             createGameButton.setDisable(newValue.isEmpty() || newValue.length()<3);
@@ -67,7 +71,7 @@ public class MainMenu{
 
         Scene scene = new Scene(vb);
 
-        w.setWidth(200);
+        w.setWidth(240);
         w.setHeight(120);
         w.setScene(scene);
         w.setResizable(false);
@@ -85,6 +89,15 @@ public class MainMenu{
 
 
         w.show();
+    }
+
+    private void createVSComputerGame(){
+        Player first = new HumanPlayer(inputNickname.getText());
+        Player second = new ComputerPlayer("Computer");
+
+        Game mGame = new Game(first,second);
+
+        mGame.run();
     }
 }
 
