@@ -1,5 +1,7 @@
 package player;
 
+import gameelements.Cell;
+import gameelements.GameField;
 import gameelements.Point;
 
 public class HumanPlayer extends Player {
@@ -21,20 +23,29 @@ public class HumanPlayer extends Player {
 
     @Override
     public Point makeShot() {
-        return  null;
+        return null;
+    }
+
+
+
+    @Override
+    public Cell.CellStatus getCellStatus(Point point) {
+
+
+        return field.getCells()[point.getY()][point.getX()].getStatus();
+
+
     }
 
     @Override
-    public boolean getCorrectShot(Point point) {
-        if(field.isCellAlreadyShot(point)) {
-            System.out.println("not correct shot");
-            return false;
-        }
+    public void setCellStatus(Point point, Cell.CellStatus status) {
+        field.getCells()[point.getY()][point.getX()].setStatus(status);
+    }
 
-        field.setCellAlreadyShot(point);
 
-        return true;
-
+    @Override
+    public GameField generateField() {
+        return new GameField();
     }
 
 }

@@ -1,5 +1,6 @@
 package player;
 
+import gameelements.Cell;
 import gameelements.GameField;
 import gameelements.Point;
 
@@ -12,10 +13,10 @@ public abstract class Player {
 
     Player(String name) {
         this.name = name;
-        field = new GameField();
+        field = generateField();
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
@@ -25,13 +26,21 @@ public abstract class Player {
 
     public abstract Point makeShot();
 
-    public abstract boolean getCorrectShot(Point point);
+    public abstract Cell.CellStatus getCellStatus(Point point);
 
-    public void printField(){
+    public abstract void setCellStatus(Point point, Cell.CellStatus status);
+
+    public void setLastSuccess(){};
+
+    public abstract GameField generateField();
+
+    public void printField() {
         System.out.println("player " + name + " field:");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                char c = field.isCellAlreadyShot(new Point(j,i)) ? 'X' : '_';
+                char c = (getCellStatus(new Point(j, i)) == Cell.CellStatus.EMPTYSHOT) ? 'o' :
+                        getCellStatus(new Point(j,i)) == Cell.CellStatus.SHIP ? '№' :
+                                getCellStatus(new Point(j,i)) == Cell.CellStatus.SHIPSHOT ? 'X' :'_';
                 System.out.print(Character.toString(c) + ' ');
             }
             System.out.println();
@@ -39,8 +48,6 @@ public abstract class Player {
 
         System.out.println();
     }
-
-
 
 
 }

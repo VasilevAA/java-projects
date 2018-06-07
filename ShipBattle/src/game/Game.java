@@ -1,7 +1,11 @@
 package game;
 
+import gameelements.Cell;
 import gameelements.Point;
 import player.Player;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game {
 
@@ -15,24 +19,50 @@ public class Game {
 
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Player getOpponent() {
+        return opponent;
+    }
+
     public void run() {//!!!
-        System.out.println("opa, zarabotalo");
 
     }
 
     public void makeShot(Point point) {
-        opponent.getCorrectShot(point); //point came without mistakes
+
+       // Cell.CellStatus status = opponent.getCellStatus(point); //point came without mistakes
+
+        if(opponent.getCellStatus(point) == Cell.CellStatus.EMPTY) {
+            opponent.setCellStatus(point, Cell.CellStatus.EMPTYSHOT);
+        } else {
+            opponent.setCellStatus(point,Cell.CellStatus.SHIPSHOT);
+        }
         opponent.printField();
 
-        getShot();
+        //return  opponent.getCellStatus(point);
 
     }
 
     // TODO: 07.06.2018 maybe we need hierarchy of game classes: human game and computer
-    private void getShot() {
-        while(!player.getCorrectShot(opponent.makeShot())) {
-            //waiting for opponent shot
+    public Point getShot() {
+
+        Point point;
+        do {
+            point = opponent.makeShot();
+        } while (player.getCellStatus(point) == Cell.CellStatus.EMPTYSHOT
+                || player.getCellStatus(point) == Cell.CellStatus.SHIPSHOT);
+
+        if (player.getCellStatus(point) == Cell.CellStatus.EMPTY) {
+            player.setCellStatus(point, Cell.CellStatus.EMPTYSHOT);
+        } else {
+            player.setCellStatus(point, Cell.CellStatus.SHIPSHOT);
+            opponent.setLastSuccess();
         }
+
         player.printField();
+        return point;
     }
 }

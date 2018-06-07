@@ -1,0 +1,28 @@
+
+
+.button:hover{
+    -fx-background-color: salmon;
+}
+
+.button:pressed
+{
+  -fx-background-color: indianred;
+
+}
+
+
+.button:disabled
+{
+    -fx-opacity: 1.0;
+    -fx-background-color: dodgerblue;
+
+}
+
+.button
+{
+    -fx-background-color: dodgerblue;
+    -fx-background-radius: 0;
+
+}
+
+
