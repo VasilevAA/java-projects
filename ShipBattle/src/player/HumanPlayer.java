@@ -28,16 +28,10 @@ public class HumanPlayer extends Player {
 
 
 
-
-    @Override
-    public void setCellStatus(Point point, GameField.CellStatus status) {
-        field.setCell(point,status);
-    }
-
-
     @Override
     public GameField generateField() {
-        return new GameField();
+
+        return new GameField().placeShipRandomly();
     }
 
 }

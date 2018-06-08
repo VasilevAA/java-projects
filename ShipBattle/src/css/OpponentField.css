@@ -1,12 +1,12 @@
 
 
 .button:hover{
-    -fx-background-color: salmon;
+    -fx-background-color: hotpink
 }
 
 .button:pressed
 {
-  -fx-background-color: indianred;
+  -fx-background-color: deeppink;
 
 }
 

@@ -92,11 +92,7 @@ public class ComputerPlayer extends Player {
     }
 
 
-    @Override
-    public void setCellStatus(Point point, GameField.CellStatus status) {
-        field.setCell(point,status);
 
-    }
 
     @Override
     public void setLastSuccess() {
@@ -106,7 +102,7 @@ public class ComputerPlayer extends Player {
 
     @Override
     public GameField generateField() {
-        GameField fd = new GameField().random();
+        GameField fd = new GameField().placeShipRandomly();
 
 
 

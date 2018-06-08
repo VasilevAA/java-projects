@@ -2,6 +2,7 @@ package game;
 
 import gameelements.GameField;
 import gameelements.Point;
+import gameelements.Ship;
 import player.Player;
 
 public class Game {
@@ -9,6 +10,7 @@ public class Game {
     private Player player; // It's you
     private Player opponent; // your opponent (comp or real human)
 
+    public  enum ShotType{WOUND,MISS,FINISH}
 
     public Game(Player first, Player second) {
         this.player = first;
@@ -26,20 +28,25 @@ public class Game {
 
 
 
-    public void makeShot(Point point) {
+    public ShotType makeShot(Point point) {
 
        // Cell.CellStatus status = opponent.getCellStatus(point); //point came without mistakes
 
+        ShotType ret;
         if(opponent.getCellStatus(point) == GameField.CellStatus.EMPTY) {
-            opponent.setCellStatus(point, GameField.CellStatus.EMPTYSHOT);
+           ret = opponent.setCellStatus(point, GameField.CellStatus.EMPTYSHOT);
         } else {
-            opponent.setCellStatus(point,GameField.CellStatus.SHIPSHOT);
+           ret = opponent.setCellStatus(point,GameField.CellStatus.SHIPSHOT);
         }
         opponent.printField();
 
+
+        return ret;
         //return  opponent.getCellStatus(point);
 
     }
+
+
 
     // TODO: 07.06.2018 maybe we need hierarchy of game classes: human game and computer
     public Point getShot() {
