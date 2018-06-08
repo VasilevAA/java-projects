@@ -1,11 +1,8 @@
 package game;
 
-import gameelements.Cell;
+import gameelements.GameField;
 import gameelements.Point;
 import player.Player;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Game {
 
@@ -27,18 +24,16 @@ public class Game {
         return opponent;
     }
 
-    public void run() {//!!!
 
-    }
 
     public void makeShot(Point point) {
 
        // Cell.CellStatus status = opponent.getCellStatus(point); //point came without mistakes
 
-        if(opponent.getCellStatus(point) == Cell.CellStatus.EMPTY) {
-            opponent.setCellStatus(point, Cell.CellStatus.EMPTYSHOT);
+        if(opponent.getCellStatus(point) == GameField.CellStatus.EMPTY) {
+            opponent.setCellStatus(point, GameField.CellStatus.EMPTYSHOT);
         } else {
-            opponent.setCellStatus(point,Cell.CellStatus.SHIPSHOT);
+            opponent.setCellStatus(point,GameField.CellStatus.SHIPSHOT);
         }
         opponent.printField();
 
@@ -52,14 +47,14 @@ public class Game {
         Point point;
         do {
             point = opponent.makeShot();
-        } while (player.getCellStatus(point) == Cell.CellStatus.EMPTYSHOT
-                || player.getCellStatus(point) == Cell.CellStatus.SHIPSHOT);
+        } while (player.getCellStatus(point) == GameField.CellStatus.EMPTYSHOT
+                || player.getCellStatus(point) == GameField.CellStatus.SHIPSHOT);
 
-        if (player.getCellStatus(point) == Cell.CellStatus.EMPTY) {
-            player.setCellStatus(point, Cell.CellStatus.EMPTYSHOT);
+        if (player.getCellStatus(point) == GameField.CellStatus.EMPTY) {
+            player.setCellStatus(point, GameField.CellStatus.EMPTYSHOT);
         } else {
-            player.setCellStatus(point, Cell.CellStatus.SHIPSHOT);
-            opponent.setLastSuccess();
+            player.setCellStatus(point, GameField.CellStatus.SHIPSHOT);
+//            opponent.setLastSuccess();
         }
 
         player.printField();

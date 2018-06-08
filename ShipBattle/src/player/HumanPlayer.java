@@ -1,6 +1,5 @@
 package player;
 
-import gameelements.Cell;
 import gameelements.GameField;
 import gameelements.Point;
 
@@ -28,18 +27,11 @@ public class HumanPlayer extends Player {
 
 
 
-    @Override
-    public Cell.CellStatus getCellStatus(Point point) {
 
-
-        return field.getCells()[point.getY()][point.getX()].getStatus();
-
-
-    }
 
     @Override
-    public void setCellStatus(Point point, Cell.CellStatus status) {
-        field.getCells()[point.getY()][point.getX()].setStatus(status);
+    public void setCellStatus(Point point, GameField.CellStatus status) {
+        field.setCell(point,status);
     }
 
 

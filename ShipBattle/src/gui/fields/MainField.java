@@ -1,7 +1,7 @@
 package gui.fields;
 
 import game.Game;
-import gameelements.Cell;
+import gameelements.GameField;
 import gameelements.Point;
 import javafx.concurrent.Task;
 import javafx.geometry.Orientation;
@@ -13,8 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.Random;
 
 public class MainField extends Stage {
 
@@ -54,18 +52,18 @@ public class MainField extends Stage {
             protected Object call() {
                 opponentPart.setDisable(true);
 
-                try {
-                    Thread.sleep(/*new Random().nextInt(2000) +*/ 500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(/*new Random().nextInt(2000) +*/ 500);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 opponentPart.setDisable(false);
                 return null;
             }
         };
         task.setOnSucceeded(event -> {
-            Cell.CellStatus status = game.getPlayer().getCellStatus(point);
-            if (status == Cell.CellStatus.SHIPSHOT) {
+            GameField.CellStatus status = game.getPlayer().getCellStatus(point);
+            if (status == GameField.CellStatus.SHIPSHOT) {
                 playerField[point.getY()][point.getX()].setStyle("-fx-background-color: red");
                 getShot();
             } else {
@@ -96,7 +94,7 @@ public class MainField extends Stage {
                 Button but =
                         playerField[i][j] = new Button(" ");
                 but.setMinSize(25, 25);
-                if (game.getPlayer().getCellStatus(new Point(j, i)) == Cell.CellStatus.SHIP)
+                if (game.getPlayer().getCellStatus(new Point(j, i)) == GameField.CellStatus.SHIP)
                     but.setStyle("-fx-background-color: orange");
                 // but.setStyle("-fx-background-color: blue");
                 but.setDisable(true);
@@ -134,8 +132,8 @@ public class MainField extends Stage {
                     opponentField[finalI][finalJ].setDisable(true);
                     this.game.makeShot(new Point(finalJ, finalI));
                     // Cell.CellStatus status = this.game.makeShot(new Point(finalJ, finalI));
-                    Cell.CellStatus status = this.game.getOpponent().getCellStatus(new Point(finalJ, finalI));
-                    if (status == Cell.CellStatus.SHIPSHOT) {
+                   GameField.CellStatus status = this.game.getOpponent().getCellStatus(new Point(finalJ, finalI));
+                    if (status == GameField.CellStatus.SHIPSHOT) {
                         opponentField[finalI][finalJ].setStyle("-fx-background-color: red");
                     } else {
                         getShot();

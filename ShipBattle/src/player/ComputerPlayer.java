@@ -1,6 +1,5 @@
 package player;
 
-import gameelements.Cell;
 import gameelements.GameField;
 import gameelements.Point;
 
@@ -10,8 +9,8 @@ public class ComputerPlayer extends Player {
 
     private int wasLastShotSuccesful = 0;
 
-    Point lastShot;
-    Point lastLastShot;
+    private Point lastShot;
+    private Point lastLastShot;
 
     boolean[] directions = new boolean[4];
 
@@ -37,38 +36,38 @@ public class ComputerPlayer extends Player {
     @Override
     public Point makeShot() {// TODO: 07.06.2018 make it just a bit smarter
 
-        if (wasLastShotSuccesful == 1) {
-
-            if (isShotAvialiable(lastShot.getX() + 1, lastShot.getY()) && !directions[0]) {
-                directions[0] = true;
-                lastLastShot = new Point(lastShot.getX() + 1, lastShot.getY());
-
-            }
-
-            if (isShotAvialiable(lastShot.getX(), lastShot.getY() - 1) && !directions[1]) {
-                directions[1] = true;
-                lastLastShot = new Point(lastShot.getX(), lastShot.getY() - 1);
-                return true;
-            }
-
-            if (isShotAvialiable(lastShot.getX(), lastShot.getY() + 1) && !directions[2]) {
-                directions[2] = true;
-                lastLastShot = new Point(lastShot.getX(), lastShot.getY() + 1);
-                return true;
-            }
-
-            if (isShotAvialiable(lastShot.getX() - 1, lastShot.getY()) && !directions[3]) {
-                directions[3] = true;
-                lastLastShot = new Point(lastShot.getX() - 1, lastShot.getY());
-                return true;
-            }
-            wasLastShotSuccesful = 0;
-            for (int i = 0; i < directions.length; i++) {
-                directions[i] = false;
-
-            }
-
-        }
+//        if (wasLastShotSuccesful == 1) {
+//
+//            if (isShotAvialiable(lastShot.getX() + 1, lastShot.getY()) && !directions[0]) {
+//                directions[0] = true;
+//                lastLastShot = new Point(lastShot.getX() + 1, lastShot.getY());
+//
+//            }
+//
+//            if (isShotAvialiable(lastShot.getX(), lastShot.getY() - 1) && !directions[1]) {
+//                directions[1] = true;
+//                lastLastShot = new Point(lastShot.getX(), lastShot.getY() - 1);
+//                return true;
+//            }
+//
+//            if (isShotAvialiable(lastShot.getX(), lastShot.getY() + 1) && !directions[2]) {
+//                directions[2] = true;
+//                lastLastShot = new Point(lastShot.getX(), lastShot.getY() + 1);
+//                return true;
+//            }
+//
+//            if (isShotAvialiable(lastShot.getX() - 1, lastShot.getY()) && !directions[3]) {
+//                directions[3] = true;
+//                lastLastShot = new Point(lastShot.getX() - 1, lastShot.getY());
+//                return true;
+//            }
+//            wasLastShotSuccesful = 0;
+//            for (int i = 0; i < directions.length; i++) {
+//                directions[i] = false;
+//
+//            }
+//
+//        }
 
         lastShot = new Point(new Random().nextInt(10), new Random().nextInt(10));
 
@@ -92,17 +91,10 @@ public class ComputerPlayer extends Player {
         );
     }
 
-    @Override
-    public Cell.CellStatus getCellStatus(Point point) {
-
-        return field.getCells()[point.getY()][point.getX()].getStatus();
-
-
-    }
 
     @Override
-    public void setCellStatus(Point point, Cell.CellStatus status) {
-        field.getCells()[point.getY()][point.getX()].setStatus(status);
+    public void setCellStatus(Point point, GameField.CellStatus status) {
+        field.setCell(point,status);
 
     }
 
@@ -114,7 +106,12 @@ public class ComputerPlayer extends Player {
 
     @Override
     public GameField generateField() {
-        return new GameField();
+        GameField fd = new GameField().random();
+
+
+
+
+        return  fd;
     }
 
 

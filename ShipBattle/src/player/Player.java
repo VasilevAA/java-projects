@@ -1,6 +1,5 @@
 package player;
 
-import gameelements.Cell;
 import gameelements.GameField;
 import gameelements.Point;
 
@@ -26,11 +25,13 @@ public abstract class Player {
 
     public abstract Point makeShot();
 
-    public abstract Cell.CellStatus getCellStatus(Point point);
+    public  GameField.CellStatus getCellStatus(Point point){
+        return field.getCell(point);
+    }
 
-    public abstract void setCellStatus(Point point, Cell.CellStatus status);
+    public abstract void setCellStatus(Point point, GameField.CellStatus status);
 
-    public void setLastSuccess(){};
+    public void setLastSuccess(){}
 
     public abstract GameField generateField();
 
@@ -38,9 +39,9 @@ public abstract class Player {
         System.out.println("player " + name + " field:");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                char c = (getCellStatus(new Point(j, i)) == Cell.CellStatus.EMPTYSHOT) ? 'o' :
-                        getCellStatus(new Point(j,i)) == Cell.CellStatus.SHIP ? '№' :
-                                getCellStatus(new Point(j,i)) == Cell.CellStatus.SHIPSHOT ? 'X' :'_';
+                char c = (getCellStatus(new Point(j, i)) == GameField.CellStatus.EMPTYSHOT) ? 'o' :
+                        getCellStatus(new Point(j,i)) == GameField.CellStatus.SHIP ? '#' :
+                                getCellStatus(new Point(j,i)) == GameField.CellStatus.SHIPSHOT ? 'X' :'_';
                 System.out.print(Character.toString(c) + ' ');
             }
             System.out.println();
