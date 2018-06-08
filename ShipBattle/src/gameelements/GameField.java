@@ -1,62 +1,57 @@
 package gameelements;
 
-import javafx.scene.control.Cell;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class GameField {
 
-    private Point[] points;
-
     public enum CellStatus {EMPTYSHOT, EMPTY, SHIPSHOT, SHIP}
-
 
     private CellStatus[][] cells = new CellStatus[10][10];
 
     private Ship[] ships = new Ship[10];
+
+    public GameField() {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                cells[i][j] = CellStatus.EMPTY;
+            }
+        }
+    }
 
     public CellStatus getCell(Point p) {
         return cells[p.getY()][p.getX()];
     }
 
     public void setCell(Point p, CellStatus st) {
+
         cells[p.getY()][p.getX()] = st;
     }
 
-    public GameField() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                cells[i][j] = CellStatus.EMPTY;
-
-
+    public Ship getShip(Point point) {
+        for (Ship ship : ships) {
+            if (ship.contains(point)) {
+                return ship;
             }
         }
-
-
+        return null;
     }
 
-    public GameField placeShipRandomly() {
-        ships[0] = new Ship(4);
-        placeShip(ships[0], 4);
-        for (int i = 1; i <= 2; i++) {
-            ships[i] = new Ship(3);
-            placeShip(ships[i], 3);
-        }
-        for (int i = 3; i <= 5; i++) {
-            ships[i] = new Ship(2);
-            placeShip(ships[i], 2);
-        }
-        for (int i = 6; i <= 9; i++) {
-            ships[i] = new Ship(1);
-            placeShip(ships[i], 1);
+    public GameField placeShipsRandomly() {
+
+        for (int i = 0, size = 4; i < 10; i++) {
+            if (i == 1 || i == 3 || i == 6) {
+                size--;
+            }
+            ships[i] = new Ship(size);
+            placeShip(ships[i], size);
         }
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                if(getCell(new Point(j,i)) == CellStatus.EMPTYSHOT){
-                    setCell(new Point(j,i),CellStatus.EMPTY);
+                if (getCell(new Point(j, i)) == CellStatus.EMPTYSHOT) {
+                    setCell(new Point(j, i), CellStatus.EMPTY);
                 }
             }
         }
@@ -66,191 +61,135 @@ public class GameField {
 
     private void placeShip(Ship ship, int size) {
 
-        int direction = 0; //1 - right, 2 - bot, 3 - left, 4 - top
-        Point first;
+        int shipDirection; //1 - right, 2 - bot, 3 - left, 4 - top
+        Point firstPoint;
         do {
-
-            first = new Point(new Random().nextInt(10), new Random().nextInt(10));
-
-            direction = analyzeSurrounds(first, size);
-
+            firstPoint = new Point(new Random().nextInt(10), new Random().nextInt(10));
+            shipDirection = getCorrectPositionForShip(firstPoint, size);
         }
-        while (direction == 0);
-        placeFinalShip(first, ship, direction);
+        while (shipDirection == 0);
+
+        placeShipCorrectly(firstPoint, ship, shipDirection);
 
 
     }
 
-    private int analyzeSurrounds(Point p, int size) {
+    private int getCorrectPositionForShip(Point firstPoint, int size) {
+
         int k = new Random().nextInt(4) + 1;
         boolean t = true;
-        switch (k) {
-            case 1:
-                if (p.getX() + size <= 10) {
-                    for (int i = p.getX(); i < p.getX() + size; i++) {
-                        CellStatus st = getCell(new Point(i, p.getY()));
-                        if (st == CellStatus.SHIP
-                                || st == CellStatus.EMPTYSHOT) {
-                            t = false;
-                            break;
-                        }
-                    }
 
-                } else {
-                    t = false;
-                }
-                break;
-            case 2:
-                if (p.getY() + size <= 10) {
-                    for (int i = p.getY(); i < p.getY() + size; i++) {
-                        CellStatus st = getCell(new Point(p.getX(), i));
-                        if (st == CellStatus.SHIP
-                                || st == CellStatus.EMPTYSHOT) {
+        for (int i = 0; i < size; i++) {
+            CellStatus status;
+            switch (k) {
+                case 1:
+                    if (firstPoint.getX() + size <= 10) {
+                        status = getCell(new Point(firstPoint.getX() + i, firstPoint.getY()));
+                        if (status == CellStatus.SHIP || status == CellStatus.EMPTYSHOT) {
                             t = false;
-                            break;
                         }
+                    } else {
+                        t = false;
                     }
-                } else {
-                    t = false;
-                }
-                break;
-            case 3:
-                if (p.getX() - size >= -1) {
-                    for (int i = p.getX(); i > p.getX() - size; i--) {
-                        CellStatus st = getCell(new Point(i, p.getY()));
-                        if (st == CellStatus.SHIP
-                                || st == CellStatus.EMPTYSHOT) {
+                    break;
+                case 2:
+                    if (firstPoint.getY() + size <= 10) {
+                        status = getCell(new Point(firstPoint.getX(), firstPoint.getY() + i));
+                        if (status == CellStatus.SHIP || status == CellStatus.EMPTYSHOT) {
                             t = false;
-                            break;
                         }
+                    } else {
+                        t = false;
                     }
-                } else {
-                    t = false;
-                }
-                break;
-            case 4:
-                if (p.getY() - size >= -1) {
-                    for (int i = p.getY(); i > p.getY() - size; i--) {
-                        CellStatus st = getCell(new Point(p.getX(), i));
-                        if (st == CellStatus.SHIP
-                                || st == CellStatus.EMPTYSHOT) {
+                    break;
+                case 3:
+                    if (firstPoint.getX() - size >= -1) {
+                        status = getCell(new Point(firstPoint.getX() - i, firstPoint.getY()));
+                        if (status == CellStatus.SHIP || status == CellStatus.EMPTYSHOT) {
                             t = false;
-                            break;
                         }
+                    } else {
+                        t = false;
                     }
-                } else {
-                    t = false;
-                }
-                break;
-            default:
-
+                    break;
+                case 4:
+                    if (firstPoint.getY() - size >= -1) {
+                        status = getCell(new Point(firstPoint.getX(), firstPoint.getY() - i));
+                        if (status == CellStatus.SHIP || status == CellStatus.EMPTYSHOT) {
+                            t = false;
+                        }
+                    } else {
+                        t = false;
+                    }
+                    break;
+            }
         }
-        if (t) {
-            return k;
-        } else {
-            return 0;
-        }
-
+        return t ? k : 0;
     }
 
+    private void placeShipCorrectly(Point firstPoint, Ship ship, int shipDirection) {
 
-    private void placeFinalShip(Point p, Ship ship, int direction) {
-        Point[] points = new Point[ship.getSize()];
-        Point[] surroundingPoints = null;
+        Point[] shipPoints = new Point[ship.getSize()];
+        Point[] pointsAroundShip;
 
         for (int i = 0; i < ship.getSize(); i++) {
             Point point = null;
-            switch (direction) {
+            switch (shipDirection) {
                 case 1:
-                    point = new Point(p.getX() + i, p.getY());
+                    point = new Point(firstPoint.getX() + i, firstPoint.getY());
                     break;
                 case 2:
-                    point = new Point(p.getX(), p.getY() + i);
+                    point = new Point(firstPoint.getX(), firstPoint.getY() + i);
                     break;
                 case 3:
-                    point = new Point(p.getX() - i, p.getY());
+                    point = new Point(firstPoint.getX() - i, firstPoint.getY());
                     break;
                 case 4:
-                    point = new Point(p.getX(), p.getY() - i);
+                    point = new Point(firstPoint.getX(), firstPoint.getY() - i);
                     break;
             }
             setCell(point, CellStatus.SHIP);
-            points[i] = point;
+            shipPoints[i] = point;
         }
 
-        surroundingPoints = getSurroundingPoints(points);
+        pointsAroundShip = getPointsAroundShip(shipPoints);
 
-        for (int i = 0; i < surroundingPoints.length; i++) {
-            setCell(surroundingPoints[i],CellStatus.EMPTYSHOT);
+        for (Point aPointsAroundShip : pointsAroundShip) {
+            setCell(aPointsAroundShip, CellStatus.EMPTYSHOT);
         }
-        ship.setPoints(points);
-        ship.setSurrounds(surroundingPoints);
-        for (int i = 0; i < ship.getPoints().length; i++) {
-            System.out.println(ship.getSize() + " - " +ship.getPoints()[i].getX() + " " + ship.getPoints()[i].getY());
-
-        }
-        System.out.println();
-
-
+        ship.setPoints(shipPoints);
+        ship.setPointsAround(pointsAroundShip);
     }
 
-    private Point[] getSurroundingPoints(Point[] points) {
-        this.points = points;
-
+    private Point[] getPointsAroundShip(Point[] points) {
         List<Point> p = new ArrayList<>();
-        for (int i = 0; i < points.length; i++) {
-            p.addAll(surOfPoint(points[i]));
-
+        for (Point point : points) {
+            p.addAll(pointsAroundPoint(point));
         }
-
         Point[] retPoints = new Point[p.size()];
         retPoints = p.toArray(retPoints);
 
-        return  retPoints;
+        return retPoints;
     }
 
-    private List<Point> surOfPoint(Point point) {
+    private List<Point> pointsAroundPoint(Point point) {
         List<Point> temp = new ArrayList<>();
 
-
-        for (int i = point.getX() - 1; i <= point.getX() + 1; i++) {
-            Point p1 = new Point(i, point.getY() + 1);
-            if (isCorrect(p1)) {
-                temp.add(p1);
-            }
-
-            Point p2 = new Point(i, point.getY() - 1);
-            if (isCorrect(p2)) {
-                temp.add(p2);
+        for (int i = point.getY() - 1; i <= point.getY() + 1; i++) {
+            for (int j = point.getX() - 1; j <= point.getX() + 1; j++) {
+                Point arP = new Point(j, i);
+                if (isPointCorrect(arP)) {
+                    temp.add(arP);
+                }
             }
         }
-        Point p3 = new Point(point.getX()-1,point.getY());
-        if(isCorrect(p3)){
-            temp.add(p3);
-        }
-
-        Point p4 = new Point(point.getX()+1, point.getY());
-        if(isCorrect(p4)){
-            temp.add(p4);
-        }
-        return  temp;
+        return temp;
     }
 
-    private boolean isCorrect(Point p) {
+    private boolean isPointCorrect(Point p) {
         return p.getX() >= 0 && p.getY() >= 0
                 && p.getX() <= 9 && p.getY() <= 9
                 && (getCell(p) != CellStatus.SHIP);
-    }
-
-    public Ship getShip(Point point){
-        for (int i = 0; i < ships.length; i++) {
-            if(ships[i].contains(point)){
-                return ships[i];
-               // System.out.println("ttttoasofasdjfoajsdf");
-            }
-        }
-        System.out.println("tut");
-        return  null;
     }
 }
 

@@ -1,6 +1,5 @@
 package player;
 
-import game.Game;
 import gameelements.GameField;
 import gameelements.Point;
 import gameelements.Ship;
@@ -9,11 +8,7 @@ public abstract class Player {
 
     private String name;
 
-    GameField field;
-
-    public GameField getField() {
-        return field;
-    }
+    private GameField field;
 
     Player(String name) {
         this.name = name;
@@ -21,12 +16,9 @@ public abstract class Player {
     }
 
     public String name() {
+
         return name;
     }
-
-    public abstract boolean startTurn();
-
-    public abstract boolean endTurn();
 
     public abstract Point makeShot();
 
@@ -34,33 +26,20 @@ public abstract class Player {
         return field.getCell(point);
     }
 
-    public Game.ShotType setCellStatus(Point point, GameField.CellStatus status) {
+    public void setCellStatus(Point point, GameField.CellStatus status) {
         field.setCell(point, status);
         if (status == GameField.CellStatus.SHIPSHOT) {
-
             Ship temp = field.getShip(point);
-
             temp.hitShip();
 
-
             if (temp.isSank()) {
-
-            Point[] p = temp.getSurrounds();
-            for (int i = 0; i < p.length; i++) {
-                setCellStatus(p[i],GameField.CellStatus.EMPTYSHOT);
-            }
-                return Game.ShotType.FINISH;
-
-
-            } else {
-                return Game.ShotType.WOUND;
+                Point[] p = temp.getPointsAround();
+                for (Point aP : p) {
+                    setCellStatus(aP, GameField.CellStatus.EMPTYSHOT);
+                }
             }
 
         }
-        return Game.ShotType.MISS;
-    }
-
-    public void setLastSuccess() {
     }
 
     public abstract GameField generateField();
@@ -79,7 +58,6 @@ public abstract class Player {
 
         System.out.println();
     }
-
 
 }
 

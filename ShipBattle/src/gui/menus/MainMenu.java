@@ -13,8 +13,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import player.*;
+import player.ComputerPlayer;
+import player.HumanPlayer;
+import player.Player;
 
 public class MainMenu{
 

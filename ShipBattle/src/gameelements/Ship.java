@@ -1,52 +1,50 @@
 package gameelements;
 
 public class Ship {
+
     private Point[] points;
-    private Point[] surrounds;
+
+    private Point[] pointsAround;
 
     private int numberOfAlreadyShot = 0;
 
     private int size;
 
-    public int getSize() {
-        return size;
-    }
-
-    public Point[] getSurrounds() {
-        return surrounds;
-    }
-
-    public void setSurrounds(Point[] surrounds) {
-        this.surrounds = surrounds;
-    }
-
-    public Ship(int size) {
+    Ship(int size) {
         this.size = size;
         points = new Point[size];
     }
 
-    public boolean contains(Point p){
-        for (int i = 0; i < points.length; i++) {
-            if(p.equals(points[i])){
-                return true;
-            }
-        }
-        return  false;
+    public Point[] getPointsAround() {
+        return pointsAround;
     }
 
-    public void setPoints(Point[] points) {
+    void setPointsAround(Point[] pointsAround) {
+        this.pointsAround = pointsAround;
+    }
+
+    void setPoints(Point[] points) {
         this.points = points;
     }
 
-    public Point[] getPoints() {
-        return points;
+    int getSize() {
+        return size;
     }
 
-    public boolean isSank(){
-        return  numberOfAlreadyShot == size;
+    boolean contains(Point p) {
+        for (Point point : points) {
+            if (p.equals(point)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void hitShip(){
+    public boolean isSank() {
+        return numberOfAlreadyShot == size;
+    }
+
+    public void hitShip() {
         numberOfAlreadyShot++;
     }
 }

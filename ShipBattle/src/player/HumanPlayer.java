@@ -11,27 +11,14 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public boolean startTurn() {
-        return false;
-    }
-
-    @Override
-    public boolean endTurn() {
-        return false;
-    }
-
-    @Override
     public Point makeShot() {
         return null;
     }
 
-
-
-
     @Override
     public GameField generateField() {
 
-        return new GameField().placeShipRandomly();
+        return new GameField().placeShipsRandomly();
     }
 
 }
