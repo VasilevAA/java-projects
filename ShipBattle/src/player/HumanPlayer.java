@@ -21,7 +21,7 @@ public class HumanPlayer extends Player {
 
         GameField field = new GameField();
 
-        field.placeShips(Ship.getRandomlyPlacedShips());
+        field.placeShips(Ship.getGoodRandom());
 
         return field;
     }

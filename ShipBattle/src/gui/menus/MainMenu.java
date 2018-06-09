@@ -1,7 +1,10 @@
 package gui.menus;
 
 import game.Game;
+import gameelements.Ship;
 import gui.fields.MainField;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -25,6 +29,7 @@ public class MainMenu{
         VBox vb = new VBox(10);
         vb.setPadding(new Insets(10));
         vb.setAlignment(Pos.CENTER);
+        primaryStage.getIcons().add(new Image("css/img/cursor.png"));
 
         Scene scene = new Scene(vb);
 
@@ -47,6 +52,26 @@ public class MainMenu{
         Button createGameButton = new Button("Create game room");
         createGameButton.setAlignment(Pos.CENTER);
         createGameButton.setPrefWidth(Double.MAX_VALUE);
+        createGameButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int k = 10000000;
+
+                Ship.getRandomlyPlacedShips();
+                int min = Ship.cent;
+                Ship.cent = 0;
+
+                for (int i = 0; i < k; i++) {
+                    Ship.getRandomlyPlacedShips();
+
+                    if(Ship.cent < min){
+                        min = Ship.cent;
+                    }
+                    Ship.cent = 0;
+                }
+                System.out.println("average: " + min);
+            }
+        });
 
         Button createGameVsComputerButton = new Button("Play VS computer");
         createGameVsComputerButton.setAlignment(Pos.CENTER);

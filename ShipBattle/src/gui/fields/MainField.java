@@ -7,13 +7,16 @@ import javafx.concurrent.Task;
 import javafx.geometry.Orientation;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -97,8 +100,14 @@ public class MainField extends Stage {
             }
         };
         task.setOnSucceeded(event -> {
-            GameField.CellStatus status = game.getPlayer().getCellStatus(point);
             updateFields();
+
+            if(game.getWinner() != null){
+                System.out.println("game winner is " + game.getWinner().name());
+                return;
+            }
+
+            GameField.CellStatus status = game.getPlayer().getCellStatus(point);
 
             if (status == GameField.CellStatus.SHIPSHOT) {
                 getShot();
@@ -117,7 +126,7 @@ public class MainField extends Stage {
         vb.getStylesheets().add("css/PlayerField.css");
 
         GridPane grid = new GridPane();
-//        grid.setHgap(1.5);
+//        grid.setHgap(1);
 //        grid.setVgap(1.5);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -125,7 +134,7 @@ public class MainField extends Stage {
                         playerField[i][j] = new Button(" ");
                 but.setMinSize(cellSize, cellSize);
                 if (game.getPlayer().getCellStatus(new Point(j, i)) == GameField.CellStatus.SHIP) {
-                    but.setStyle("-fx-background-color: orange");
+                    but.setStyle("-fx-background-color: limegreen");
                 }
                 but.setDisable(true);
                 grid.add(but, j, i);
@@ -144,13 +153,20 @@ public class MainField extends Stage {
         GridPane grid = new GridPane();
 
         Image im = new Image("css/img/cursor.png");
+//        ImageView v = new ImageView(im);
+//        v.setRotate(45);
+//        SnapshotParameters params = new SnapshotParameters();
+//        params.setFill(Color.TRANSPARENT);
+//        im = v.snapshot(params, null);
 
-       // grid.setHgap(1.5);
+
+        //grid.setHgap(1);
        // grid.setVgap(1.5);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Button but =
                         opponentField[i][j] = new Button(" ");
+                //but.setFocusTraversable(false);
                 but.setMinSize(cellSize, cellSize);
                 but.setCursor(new ImageCursor(im, im.getWidth() / 2, im.getHeight() / 2));
                 int finalI = i;
@@ -160,6 +176,11 @@ public class MainField extends Stage {
 
                     this.game.makeShot(new Point(finalJ, finalI));
                     updateFields();
+
+                    if(game.getWinner() != null){
+                        System.out.println("game winner is " + game.getWinner().name());
+                        return;
+                    }
 
                     GameField.CellStatus status = this.game.getOpponent().getCellStatus(new Point(finalJ, finalI));
 

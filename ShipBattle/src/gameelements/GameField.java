@@ -20,6 +20,10 @@ public class GameField {
         }
     }
 
+    public CellStatus[][] getCells() {
+        return cells;
+    }
+
     public CellStatus getCell(Point p) {
         return cells[p.getY()][p.getX()];
     }
@@ -48,7 +52,6 @@ public class GameField {
 
         }
     }
-
 
 }
 

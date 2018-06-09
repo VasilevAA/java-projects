@@ -33,8 +33,17 @@ public class Game {
         } else {
             opponent.setCellStatus(point, GameField.CellStatus.SHIPSHOT);
         }
+
         opponent.printField();
 
+    }
+
+    public Player getWinner(){
+        if(!player.hasAliveShips())
+            return opponent;
+        if(!opponent.hasAliveShips())
+            return player;
+        return null;
     }
 
     // TODO: 07.06.2018 maybe we need hierarchy of game classes: human game and computer

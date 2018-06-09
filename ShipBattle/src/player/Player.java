@@ -59,5 +59,17 @@ public abstract class Player {
         System.out.println();
     }
 
+    public boolean hasAliveShips(){
+        int count = 0;
+        for (int i = 0; i < field.getCells().length; i++) {
+            for (int j = 0; j < field.getCells()[i].length; j++) {
+                if(field.getCells()[i][j] == GameField.CellStatus.SHIPSHOT){
+                    count++;
+                }
+            }
+        }
+        return count != 20;
+    }
+
 }
 

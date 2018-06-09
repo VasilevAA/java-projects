@@ -60,6 +60,28 @@ public class Ship {
     private static Ship[] tempShips = new Ship[10];
     private static GameField.CellStatus[][] tempField = new GameField.CellStatus[10][10];
 
+    public static int cent=0;
+
+    public static  Ship[] getGoodRandom(){
+        int k = 100000;
+        Ship[] ret;
+        ret = Ship.getRandomlyPlacedShips();
+        int min = Ship.cent;
+        Ship.cent = 0;
+
+        for (int i = 0; i < k; i++) {
+
+             Ship[] now =   Ship.getRandomlyPlacedShips();
+
+            if(Ship.cent > min){
+                min = Ship.cent;
+                ret = now;
+            }
+            Ship.cent = 0;
+        }
+        return  ret;
+    }
+
     public static Ship[] getRandomlyPlacedShips() {
         for (int i = 0; i < tempField.length; i++) {
             for (int j = 0; j < tempField.length; j++) {
@@ -74,14 +96,15 @@ public class Ship {
             tempShips[i] = new Ship(size);
             placeShip(tempShips[i], size);
         }
-//
-//        for (int i = 0; i < 10; i++) {
-//            for (int j = 0; j < 10; j++) {
-//                if (tempField[i][j] == GameField.CellStatus.EMPTYSHOT) {
-//                    setCell(new Point(j, i), GameField.CellStatus.EMPTY);
-//                }
-//            }
-//        }
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (tempField[i][j] == GameField.CellStatus.EMPTYSHOT) {
+                    cent++;
+                }
+            }
+        }
+        System.out.println(cent);
 
         return tempShips.clone();
     }
