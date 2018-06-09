@@ -2,6 +2,7 @@ package player;
 
 import gameelements.GameField;
 import gameelements.Point;
+import gameelements.Ship;
 
 import java.util.Random;
 
@@ -20,7 +21,11 @@ public class ComputerPlayer extends Player {
     @Override
     public GameField generateField() {
 
-        return new GameField().placeShipsRandomly();
+        GameField field = new GameField();
+
+        field.placeShips(Ship.getRandomlyPlacedShips());
+
+        return field;
     }
 
 
